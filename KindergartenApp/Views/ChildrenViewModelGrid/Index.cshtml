@@ -1,0 +1,135 @@
+﻿
+@(Html.Kendo().Grid<KindergartenApp.Models.ChildrenViewModel>()
+                  .Name("grid")
+                  .Columns(columns =>
+                  {
+                      columns.Bound(c => c.FirstName).Width(100);
+                      columns.Bound(c => c.LastName);
+                      columns.Bound(c => c.Dob).Format("{0:dd/MM/yyyy}");
+                      columns.Bound(c => c.GenderVm).ClientTemplate("#=GenderVm.Gender#");
+                      columns.Bound(c => c.ParentName);
+                      columns.Bound(c => c.ParentPhoneNumber);
+                      columns.Bound(c => c.Address).Width(120);
+                      columns.Bound(c => c.ClassVm).ClientTemplate("#=ClassVm.ClassTitle#").Title("Class");
+                      columns.Bound(c => c.DietVm).ClientTemplate("#=DietVm.DietTitle#").Title("Diet");
+                      columns.Bound(c => c.TakingCareVm).ClientTemplate("#=TakingCareVm.TakingCareTitle#").Title("Taking Care");
+                      columns.Command(command => { command.Destroy(); }).Width(80);
+                  }).ToolBar(toolbar =>
+      {
+          toolbar.Create();
+          toolbar.Save();
+      })
+                  .Editable(editable => editable.Mode(GridEditMode.InCell))
+                  .Pageable()
+                  .Scrollable(s => s.Height(260))
+                  .DataSource(dataSource => dataSource
+                      .Ajax()
+                      .Batch(true)
+                      .Model(model =>
+                      {
+                          model.Id(c => c.Id);
+                          model.Field(c => c.ClassVm).DefaultValue(
+                          ViewData["defaultClass"] as KindergartenApp.Models.ClassesViewModel);
+                          model.Field(c => c.GenderVm).DefaultValue(
+                          ViewData["defaultGender"] as KindergartenApp.Models.GenderViewModel);
+                          model.Field(c => c.DietVm).DefaultValue(
+                          ViewData["defaultDiet"] as KindergartenApp.Models.DietsViewModel);
+                          model.Field(c => c.TakingCareVm).DefaultValue(
+                          ViewData["defaultTakingCare"] as KindergartenApp.Models.TakingCaresViewModel);
+                      })
+                      .Read(read => read.Action("ChildrenViewModel_Read", "ChildrenViewModelGrid"))
+                      .Create(create => create.Action("ChildrenViewModel_Create", "ChildrenViewModelGrid"))
+                      .Update(update => update.Action("ChildrenViewModel_Update", "ChildrenViewModelGrid"))
+                      .Destroy(destroy => destroy.Action("ChildrenViewModel_Destroy", "ChildrenViewModelGrid"))
+                      .PageSize(10)
+                  )
+)
+<hr />
+<h4>Enter For A Child Detais</h4>
+@(Html.Kendo().AutoComplete()
+                      .Name("Children")
+                      .DataTextField("FirstName")
+                      .DataSource(dataSource => dataSource
+                      .Read(read => read.Action("AutoComplete_GetChildrenViewModel", "AutoComplete")))
+                      .Filter("startswith")
+                      .MinLength(1)
+                      .Events(e =>
+                      {
+                          e.Select("onSelect");
+                      })
+)
+<hr />
+<div class="box">
+
+    <table class="table table-striped">
+        <tr>
+            <th>
+                FirstName
+            </th>
+            <th>
+                LastName
+            </th>
+            <th>
+                Dob
+            </th>
+            <th>
+                Gender
+            </th>
+            <th>
+                ParentName
+            </th>
+            <th>
+                ParentPhoneNumber
+            </th>
+            <th>
+                Address
+            </th>
+        </tr>
+        <tr>
+            <td id="firstname"></td>
+            <td id="lastname"></td>
+            <td id="dob"></td>
+            <td id="gender"></td>
+            <td id="parentname"></td>
+            <td id="parentphonenumber"></td>
+            <td id="address"></td>
+            @*<td>
+                    @Html.ActionLink("Edit", "Edit", new { id = .Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = .Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = .Id })
+                </td>*@
+        </tr>
+
+    </table>
+
+
+    <div class="console"></div>
+</div>
+<script>
+    function onSelect(e) {
+        var dataItem = this.dataItem(e.item.index());
+        $("#firstname").html(function () {
+            return dataItem.FirstName;
+        });
+        $("#lastname").html(function () {
+            return dataItem.LastName;
+        });
+        $("#dob").html(function () {
+            var date = new Date(parseInt(dataItem.Dob.replace("/Date(", "").replace(")/")));
+
+            return date.getDate() + "/" + (date.getMonth()+1) + "/" + date.getFullYear();
+        });
+        $("#gender").html(function () {
+            return dataItem.GenderVm.Gender;
+        });
+        $("#parentname").html(function () {
+            return dataItem.ParentName;
+        });
+        $("#parentphonenumber").html(function () {
+            return dataItem.ParentPhoneNumber;
+        });
+        $("#address").html(function () {
+            return dataItem.Address;
+        });
+    }
+</script>

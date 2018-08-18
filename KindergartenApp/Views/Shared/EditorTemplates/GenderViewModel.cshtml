@@ -1,0 +1,7 @@
+﻿@model KindergartenApp.Models.GenderViewModel
+
+@(Html.Kendo().DropDownListFor(m => m)
+        .DataTextField("Gender")
+        .DataValueField("Gender")
+        .BindTo((System.Collections.IEnumerable)ViewData["genders"])
+)

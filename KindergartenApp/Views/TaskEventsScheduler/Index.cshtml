@@ -1,0 +1,61 @@
+﻿<style>
+    .circle {
+        height: 20px;
+        width: 20px;
+        background-color: #555;
+        border-radius: 50%;
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    .class-note{
+        display: inline-block;
+        float: left;
+        min-width: 150px;
+        min-height: 30px;
+    }
+
+</style>
+<br />
+<div style="height: 50px;">
+    @{
+        foreach (var item in ViewData["resource"] as IEnumerable<KindergartenApp.Models.ClassesViewModel>)
+        {
+            <div class="class-note"><div class="circle" style="background-color:@item.ClassColor"> </div> @item.ClassTitle</div>
+        }
+    }
+</div>
+@(Html.Kendo().Scheduler<KindergartenApp.Controllers.TaskEventViewModel>()
+    .Name("scheduler")
+    .Editable(editable => editable
+        .EditRecurringMode(SchedulerEditRecurringMode.Dialog)
+    )
+    .Selectable(false)
+    .Views(views => {
+        views.DayView();
+        views.WeekView();
+        views.MonthView();
+    })
+    .Resources(resource =>
+    {
+        resource.Add(m => m.OwnerID)
+            .Title("Owner")
+            .DataTextField("ClassTitle")
+            .DataValueField("Id")
+            .DataColorField("ClassColor")
+            .BindTo((System.Collections.IEnumerable)ViewData["resource"]);
+    })
+    .Timezone("Etc/UTC")
+    .DataSource(d => d
+        .Model(m => {
+            m.Id(f => f.Id);
+            m.Field(f => f.Title).DefaultValue("No title");
+            m.RecurrenceId(f => f.RecurrenceID);
+        })
+        .Read(read => read.Action("TaskEvents_Read", "TaskEventsScheduler"))
+        .Create(create => create.Action("TaskEvents_Create", "TaskEventsScheduler"))
+        .Update(update => update.Action("TaskEvents_Update", "TaskEventsScheduler"))
+        .Destroy(destroy => destroy.Action("TaskEvents_Destroy", "TaskEventsScheduler"))
+    )
+)
+

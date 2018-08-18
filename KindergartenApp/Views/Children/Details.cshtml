@@ -1,0 +1,175 @@
+﻿@model KindergartenApp.Models.Child
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Child</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Dob)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Dob)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Gender)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Gender)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ParentName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ParentName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ParentPhoneNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ParentPhoneNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Class.ClassTitle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Class.ClassTitle)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Diet.DietTitle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Diet.DietTitle)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TakingCare.TakingCareTitle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TakingCare.TakingCareTitle)
+        </dd>
+
+    </dl>
+</div>
+
+<div>
+    <h4>Class List</h4>
+    <hr />
+    <table class="table table-striped">
+        <tr>
+            <th>Id</th>
+            <th>Children Name</th>
+            <th>Address</th>
+        </tr>
+        <tbody>
+            @foreach (var item in Model.Class.Children)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(model => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.FirstName)
+                        @Html.DisplayFor(model => item.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.Address)
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</div>
+
+<div>
+    <h4>Diet Details</h4>
+    <hr />
+    <h5>Diet Title: @Html.DisplayFor(title => Model.Diet.DietTitle) </h5>
+    <table class="table table-striped">
+        <tr>
+            <th>
+                Meal
+            </th>
+            <th>
+                Food Menu
+            </th>
+            <th>
+                Note
+            </th>
+            <th>
+                DateCreated
+            </th>
+            <th></th>
+        </tr>
+        @foreach (var item in Model.Diet.DietDetails)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Meal)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FoodMenu)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Note)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

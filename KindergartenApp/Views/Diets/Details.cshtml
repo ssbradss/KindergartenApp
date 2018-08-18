@@ -1,0 +1,70 @@
+﻿@model KindergartenApp.Models.Diet
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Diet</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DietTitle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DietTitle)
+        </dd>
+
+    </dl>
+</div>
+<div>
+    <h4>Diet Details</h4>
+    <hr />
+    <table class="table table-striped">
+        <tr>
+            <th>
+                Meal
+            </th>
+            <th>
+                Food Menu
+            </th>
+            <th>
+                Note
+            </th>
+            <th>
+                DateCreated
+            </th>
+            <th></th>
+        </tr>
+        @foreach (var item in Model.DietDetails)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Meal)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FoodMenu)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Note)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", "DietDetails", new { id = item.Id }, null) |
+                    @Html.ActionLink("Details", "Details", "DietDetails", new { id = item.Id }, null) |
+                    @Html.ActionLink("Delete", "Delete", "DietDetails", new { id = item.Id }, null)
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

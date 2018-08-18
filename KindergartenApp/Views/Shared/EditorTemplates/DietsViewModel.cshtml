@@ -1,0 +1,8 @@
+﻿@model KindergartenApp.Models.DietsViewModel
+
+@(Html.Kendo().DropDownListFor(d => d)
+    .DataTextField("DietTitle")
+    .DataValueField("Id")
+    .BindTo((System.Collections.IEnumerable)ViewData["diets"])
+    )
+

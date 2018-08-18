@@ -1,0 +1,42 @@
+﻿@(Html.Kendo().Grid<KindergartenApp.Models.Child>()
+      .Name("grid")
+      .Columns(columns =>
+      {
+          columns.Bound(c => c.FirstName);
+          columns.Bound(c => c.LastName);
+          columns.Bound(c => c.Dob);
+          columns.Bound(c => c.Gender);
+          columns.Bound(c => c.ParentName);
+          columns.Bound(c => c.ParentPhoneNumber);
+          columns.Bound(c => c.Address);
+          columns.Command(command => {command.Destroy(); }).Width(180);
+      })
+      .ToolBar(toolbar => {
+          toolbar.Create();
+          toolbar.Save();
+          toolbar.Excel();
+          toolbar.Pdf();
+      })
+      .ColumnMenu()
+      .Editable(editable => editable.Mode(GridEditMode.InCell))
+      .Pageable()
+      .Navigatable()
+      .Selectable(selectable => {
+          selectable.Mode(GridSelectionMode.Single);
+          selectable.Type(GridSelectionType.Row);
+      })
+      .Sortable(sortable => {
+          sortable.SortMode(GridSortMode.SingleColumn);
+      })
+      .Filterable()
+      .Scrollable()
+      .DataSource(dataSource => dataSource
+          .Ajax()
+          .Batch(true)
+          .Model(model => model.Id(p => p.Id))
+          .Read(read => read.Action("Children_Read", "ChildrenGrid"))
+          .Create(create => create.Action("Children_Create", "ChildrenGrid"))
+          .Update(update => update.Action("Children_Update", "ChildrenGrid"))
+          .Destroy(destroy => destroy.Action("Children_Destroy", "ChildrenGrid"))
+      )
+)

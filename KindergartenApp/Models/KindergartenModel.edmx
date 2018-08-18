@@ -1,0 +1,876 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Kindergarten_DBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Child">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Dob" Type="date" Nullable="false" />
+          <Property Name="Gender" Type="bit" Nullable="false" />
+          <Property Name="ParentName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ParentPhoneNumber" Type="int" Nullable="false" />
+          <Property Name="Address" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ClassId" Type="int" />
+          <Property Name="DietId" Type="int" />
+          <Property Name="TakingCareId" Type="int" />
+        </EntityType>
+        <EntityType Name="Class">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ClassTitle" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TimeStart" Type="datetime" Nullable="false" />
+          <Property Name="TimeEnd" Type="datetime" Nullable="false" />
+          <Property Name="Note" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="Class_Trip">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ClassId" Type="int" Nullable="false" />
+          <Property Name="TripId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Diet">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DietTitle" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DietDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Meal" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FoodMenu" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="Note" Type="varchar" MaxLength="500" />
+          <Property Name="Date" Type="date" />
+          <Property Name="DietId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TakingCare">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TakingCareTitle" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TakingCareDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Meal" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FoodMenu" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="Activity" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="Note" Type="varchar" MaxLength="500" />
+          <Property Name="TakingCareId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TaskEvent">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="varchar" MaxLength="50" />
+          <Property Name="Start" Type="datetime" Nullable="false" />
+          <Property Name="End" Type="datetime" Nullable="false" />
+          <Property Name="StartTimeZone" Type="varchar" MaxLength="50" />
+          <Property Name="EndTimeZone" Type="varchar" MaxLength="50" />
+          <Property Name="Description" Type="varchar" MaxLength="50" />
+          <Property Name="IsAllDay" Type="bit" Nullable="false" />
+          <Property Name="RecurrenceException" Type="varchar" MaxLength="50" />
+          <Property Name="RecurrenceRule" Type="varchar" MaxLength="50" />
+          <Property Name="RecurrenceId" Type="int" />
+          <Property Name="OwnerId" Type="int" />
+        </EntityType>
+        <EntityType Name="Teacher">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Dob" Type="date" Nullable="false" />
+          <Property Name="Gender" Type="bit" Nullable="false" />
+          <Property Name="PhoneNumber" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Address" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Teacher_Class">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TeacherId" Type="int" Nullable="false" />
+          <Property Name="ClassId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Trip">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TripTitle" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TripDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Destination" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TimeStart" Type="datetime" Nullable="false" />
+          <Property Name="TimeEnd" Type="datetime" Nullable="false" />
+          <Property Name="Activity" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Food" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Budget" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="TripId" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Child_Class">
+          <End Role="Class" Type="Self.Class" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Child" Type="Self.Child" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Class">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Child">
+              <PropertyRef Name="ClassId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Child_Diet">
+          <End Role="Diet" Type="Self.Diet" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Child" Type="Self.Child" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Diet">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Child">
+              <PropertyRef Name="DietId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Child_TakingCareId">
+          <End Role="TakingCare" Type="Self.TakingCare" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Child" Type="Self.Child" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TakingCare">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Child">
+              <PropertyRef Name="TakingCareId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DietDetail_Diet">
+          <End Role="Diet" Type="Self.Diet" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="DietDetail" Type="Self.DietDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Diet">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DietDetail">
+              <PropertyRef Name="DietId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Table_ClassId">
+          <End Role="Class" Type="Self.Class" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Class_Trip" Type="Self.Class_Trip" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Class">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Class_Trip">
+              <PropertyRef Name="ClassId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Table_TripId">
+          <End Role="Trip" Type="Self.Trip" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Class_Trip" Type="Self.Class_Trip" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Trip">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Class_Trip">
+              <PropertyRef Name="TripId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TakingCareDetail_TakingCare">
+          <End Role="TakingCare" Type="Self.TakingCare" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="TakingCareDetail" Type="Self.TakingCareDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TakingCare">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TakingCareDetail">
+              <PropertyRef Name="TakingCareId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TaskEvent_Class">
+          <End Role="Class" Type="Self.Class" Multiplicity="0..1" />
+          <End Role="TaskEvent" Type="Self.TaskEvent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Class">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TaskEvent">
+              <PropertyRef Name="OwnerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Teacher_Class_Class">
+          <End Role="Class" Type="Self.Class" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Teacher_Class" Type="Self.Teacher_Class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Class">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Teacher_Class">
+              <PropertyRef Name="ClassId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Teacher_Class_Teacher">
+          <End Role="Teacher" Type="Self.Teacher" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Teacher_Class" Type="Self.Teacher_Class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teacher">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Teacher_Class">
+              <PropertyRef Name="TeacherId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TripDetail_Trip">
+          <End Role="Trip" Type="Self.Trip" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="TripDetail" Type="Self.TripDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Trip">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TripDetail">
+              <PropertyRef Name="TripId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Kindergarten_DBModelStoreContainer">
+          <EntitySet Name="Child" EntityType="Self.Child" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Class" EntityType="Self.Class" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Class_Trip" EntityType="Self.Class_Trip" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Diet" EntityType="Self.Diet" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DietDetail" EntityType="Self.DietDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TakingCare" EntityType="Self.TakingCare" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TakingCareDetail" EntityType="Self.TakingCareDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TaskEvent" EntityType="Self.TaskEvent" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Teacher" EntityType="Self.Teacher" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Teacher_Class" EntityType="Self.Teacher_Class" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Trip" EntityType="Self.Trip" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TripDetail" EntityType="Self.TripDetail" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Child_Class" Association="Self.FK_Child_Class">
+            <End Role="Class" EntitySet="Class" />
+            <End Role="Child" EntitySet="Child" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Child_Diet" Association="Self.FK_Child_Diet">
+            <End Role="Diet" EntitySet="Diet" />
+            <End Role="Child" EntitySet="Child" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Child_TakingCareId" Association="Self.FK_Child_TakingCareId">
+            <End Role="TakingCare" EntitySet="TakingCare" />
+            <End Role="Child" EntitySet="Child" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DietDetail_Diet" Association="Self.FK_DietDetail_Diet">
+            <End Role="Diet" EntitySet="Diet" />
+            <End Role="DietDetail" EntitySet="DietDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Table_ClassId" Association="Self.FK_Table_ClassId">
+            <End Role="Class" EntitySet="Class" />
+            <End Role="Class_Trip" EntitySet="Class_Trip" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Table_TripId" Association="Self.FK_Table_TripId">
+            <End Role="Trip" EntitySet="Trip" />
+            <End Role="Class_Trip" EntitySet="Class_Trip" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TakingCareDetail_TakingCare" Association="Self.FK_TakingCareDetail_TakingCare">
+            <End Role="TakingCare" EntitySet="TakingCare" />
+            <End Role="TakingCareDetail" EntitySet="TakingCareDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TaskEvent_Class" Association="Self.FK_TaskEvent_Class">
+            <End Role="Class" EntitySet="Class" />
+            <End Role="TaskEvent" EntitySet="TaskEvent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Teacher_Class_Class" Association="Self.FK_Teacher_Class_Class">
+            <End Role="Class" EntitySet="Class" />
+            <End Role="Teacher_Class" EntitySet="Teacher_Class" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Teacher_Class_Teacher" Association="Self.FK_Teacher_Class_Teacher">
+            <End Role="Teacher" EntitySet="Teacher" />
+            <End Role="Teacher_Class" EntitySet="Teacher_Class" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TripDetail_Trip" Association="Self.FK_TripDetail_Trip">
+            <End Role="Trip" EntitySet="Trip" />
+            <End Role="TripDetail" EntitySet="TripDetail" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Kindergarten_DBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="Kindergarten_DBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Children" EntityType="Kindergarten_DBModel.Child" />
+          <EntitySet Name="Classes" EntityType="Kindergarten_DBModel.Class" />
+          <EntitySet Name="Class_Trip" EntityType="Kindergarten_DBModel.Class_Trip" />
+          <EntitySet Name="Diets" EntityType="Kindergarten_DBModel.Diet" />
+          <EntitySet Name="DietDetails" EntityType="Kindergarten_DBModel.DietDetail" />
+          <EntitySet Name="TakingCares" EntityType="Kindergarten_DBModel.TakingCare" />
+          <EntitySet Name="TakingCareDetails" EntityType="Kindergarten_DBModel.TakingCareDetail" />
+          <EntitySet Name="Teachers" EntityType="Kindergarten_DBModel.Teacher" />
+          <EntitySet Name="Teacher_Class" EntityType="Kindergarten_DBModel.Teacher_Class" />
+          <EntitySet Name="Trips" EntityType="Kindergarten_DBModel.Trip" />
+          <EntitySet Name="TripDetails" EntityType="Kindergarten_DBModel.TripDetail" />
+          <AssociationSet Name="FK_Child_Class" Association="Kindergarten_DBModel.FK_Child_Class">
+            <End Role="Class" EntitySet="Classes" />
+            <End Role="Child" EntitySet="Children" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Child_Diet" Association="Kindergarten_DBModel.FK_Child_Diet">
+            <End Role="Diet" EntitySet="Diets" />
+            <End Role="Child" EntitySet="Children" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Child_TakingCareId" Association="Kindergarten_DBModel.FK_Child_TakingCareId">
+            <End Role="TakingCare" EntitySet="TakingCares" />
+            <End Role="Child" EntitySet="Children" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Table_ClassId" Association="Kindergarten_DBModel.FK_Table_ClassId">
+            <End Role="Class" EntitySet="Classes" />
+            <End Role="Class_Trip" EntitySet="Class_Trip" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Teacher_Class_Class" Association="Kindergarten_DBModel.FK_Teacher_Class_Class">
+            <End Role="Class" EntitySet="Classes" />
+            <End Role="Teacher_Class" EntitySet="Teacher_Class" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Table_TripId" Association="Kindergarten_DBModel.FK_Table_TripId">
+            <End Role="Trip" EntitySet="Trips" />
+            <End Role="Class_Trip" EntitySet="Class_Trip" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DietDetail_Diet" Association="Kindergarten_DBModel.FK_DietDetail_Diet">
+            <End Role="Diet" EntitySet="Diets" />
+            <End Role="DietDetail" EntitySet="DietDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TakingCareDetail_TakingCare" Association="Kindergarten_DBModel.FK_TakingCareDetail_TakingCare">
+            <End Role="TakingCare" EntitySet="TakingCares" />
+            <End Role="TakingCareDetail" EntitySet="TakingCareDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Teacher_Class_Teacher" Association="Kindergarten_DBModel.FK_Teacher_Class_Teacher">
+            <End Role="Teacher" EntitySet="Teachers" />
+            <End Role="Teacher_Class" EntitySet="Teacher_Class" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TripDetail_Trip" Association="Kindergarten_DBModel.FK_TripDetail_Trip">
+            <End Role="Trip" EntitySet="Trips" />
+            <End Role="TripDetail" EntitySet="TripDetails" />
+          </AssociationSet>
+          <EntitySet Name="TaskEvents" EntityType="Kindergarten_DBModel.TaskEvent" />
+          <AssociationSet Name="FK_TaskEvent_Class" Association="Kindergarten_DBModel.FK_TaskEvent_Class">
+            <End Role="Class" EntitySet="Classes" />
+            <End Role="TaskEvent" EntitySet="TaskEvents" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Child">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Dob" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Gender" Type="Boolean" Nullable="false" />
+          <Property Name="ParentName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ParentPhoneNumber" Type="Int32" Nullable="false" />
+          <Property Name="Address" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ClassId" Type="Int32" />
+          <Property Name="DietId" Type="Int32" />
+          <Property Name="TakingCareId" Type="Int32" />
+          <NavigationProperty Name="Class" Relationship="Kindergarten_DBModel.FK_Child_Class" FromRole="Child" ToRole="Class" />
+          <NavigationProperty Name="Diet" Relationship="Kindergarten_DBModel.FK_Child_Diet" FromRole="Child" ToRole="Diet" />
+          <NavigationProperty Name="TakingCare" Relationship="Kindergarten_DBModel.FK_Child_TakingCareId" FromRole="Child" ToRole="TakingCare" />
+        </EntityType>
+        <EntityType Name="Class">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ClassTitle" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TimeStart" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="TimeEnd" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Note" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Children" Relationship="Kindergarten_DBModel.FK_Child_Class" FromRole="Class" ToRole="Child" />
+          <NavigationProperty Name="Class_Trip" Relationship="Kindergarten_DBModel.FK_Table_ClassId" FromRole="Class" ToRole="Class_Trip" />
+          <NavigationProperty Name="Teacher_Class" Relationship="Kindergarten_DBModel.FK_Teacher_Class_Class" FromRole="Class" ToRole="Teacher_Class" />
+          <NavigationProperty Name="TaskEvents" Relationship="Kindergarten_DBModel.FK_TaskEvent_Class" FromRole="Class" ToRole="TaskEvent" />
+        </EntityType>
+        <EntityType Name="Class_Trip">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ClassId" Type="Int32" Nullable="false" />
+          <Property Name="TripId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Class" Relationship="Kindergarten_DBModel.FK_Table_ClassId" FromRole="Class_Trip" ToRole="Class" />
+          <NavigationProperty Name="Trip" Relationship="Kindergarten_DBModel.FK_Table_TripId" FromRole="Class_Trip" ToRole="Trip" />
+        </EntityType>
+        <EntityType Name="Diet">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DietTitle" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Children" Relationship="Kindergarten_DBModel.FK_Child_Diet" FromRole="Diet" ToRole="Child" />
+          <NavigationProperty Name="DietDetails" Relationship="Kindergarten_DBModel.FK_DietDetail_Diet" FromRole="Diet" ToRole="DietDetail" />
+        </EntityType>
+        <EntityType Name="DietDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Meal" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FoodMenu" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Note" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
+          <Property Name="DietId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Diet" Relationship="Kindergarten_DBModel.FK_DietDetail_Diet" FromRole="DietDetail" ToRole="Diet" />
+        </EntityType>
+        <EntityType Name="TakingCare">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TakingCareTitle" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Children" Relationship="Kindergarten_DBModel.FK_Child_TakingCareId" FromRole="TakingCare" ToRole="Child" />
+          <NavigationProperty Name="TakingCareDetails" Relationship="Kindergarten_DBModel.FK_TakingCareDetail_TakingCare" FromRole="TakingCare" ToRole="TakingCareDetail" />
+        </EntityType>
+        <EntityType Name="TakingCareDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Meal" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FoodMenu" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Activity" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Note" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="TakingCareId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="TakingCare" Relationship="Kindergarten_DBModel.FK_TakingCareDetail_TakingCare" FromRole="TakingCareDetail" ToRole="TakingCare" />
+        </EntityType>
+        <EntityType Name="Teacher">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Dob" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Gender" Type="Boolean" Nullable="false" />
+          <Property Name="PhoneNumber" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Address" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Teacher_Class" Relationship="Kindergarten_DBModel.FK_Teacher_Class_Teacher" FromRole="Teacher" ToRole="Teacher_Class" />
+        </EntityType>
+        <EntityType Name="Teacher_Class">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TeacherId" Type="Int32" Nullable="false" />
+          <Property Name="ClassId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Class" Relationship="Kindergarten_DBModel.FK_Teacher_Class_Class" FromRole="Teacher_Class" ToRole="Class" />
+          <NavigationProperty Name="Teacher" Relationship="Kindergarten_DBModel.FK_Teacher_Class_Teacher" FromRole="Teacher_Class" ToRole="Teacher" />
+        </EntityType>
+        <EntityType Name="Trip">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TripTitle" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Class_Trip" Relationship="Kindergarten_DBModel.FK_Table_TripId" FromRole="Trip" ToRole="Class_Trip" />
+          <NavigationProperty Name="TripDetails" Relationship="Kindergarten_DBModel.FK_TripDetail_Trip" FromRole="Trip" ToRole="TripDetail" />
+        </EntityType>
+        <EntityType Name="TripDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Destination" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TimeStart" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="TimeEnd" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Activity" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Food" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Budget" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="TripId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Trip" Relationship="Kindergarten_DBModel.FK_TripDetail_Trip" FromRole="TripDetail" ToRole="Trip" />
+        </EntityType>
+        <Association Name="FK_Child_Class">
+          <End Type="Kindergarten_DBModel.Class" Role="Class" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Kindergarten_DBModel.Child" Role="Child" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Class">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Child">
+              <PropertyRef Name="ClassId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Child_Diet">
+          <End Type="Kindergarten_DBModel.Diet" Role="Diet" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Kindergarten_DBModel.Child" Role="Child" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Diet">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Child">
+              <PropertyRef Name="DietId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Child_TakingCareId">
+          <End Type="Kindergarten_DBModel.TakingCare" Role="TakingCare" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Kindergarten_DBModel.Child" Role="Child" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TakingCare">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Child">
+              <PropertyRef Name="TakingCareId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Table_ClassId">
+          <End Type="Kindergarten_DBModel.Class" Role="Class" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Kindergarten_DBModel.Class_Trip" Role="Class_Trip" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Class">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Class_Trip">
+              <PropertyRef Name="ClassId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Teacher_Class_Class">
+          <End Type="Kindergarten_DBModel.Class" Role="Class" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Kindergarten_DBModel.Teacher_Class" Role="Teacher_Class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Class">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Teacher_Class">
+              <PropertyRef Name="ClassId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Table_TripId">
+          <End Type="Kindergarten_DBModel.Trip" Role="Trip" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Kindergarten_DBModel.Class_Trip" Role="Class_Trip" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Trip">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Class_Trip">
+              <PropertyRef Name="TripId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DietDetail_Diet">
+          <End Type="Kindergarten_DBModel.Diet" Role="Diet" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Kindergarten_DBModel.DietDetail" Role="DietDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Diet">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DietDetail">
+              <PropertyRef Name="DietId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TakingCareDetail_TakingCare">
+          <End Type="Kindergarten_DBModel.TakingCare" Role="TakingCare" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Kindergarten_DBModel.TakingCareDetail" Role="TakingCareDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TakingCare">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TakingCareDetail">
+              <PropertyRef Name="TakingCareId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Teacher_Class_Teacher">
+          <End Type="Kindergarten_DBModel.Teacher" Role="Teacher" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Kindergarten_DBModel.Teacher_Class" Role="Teacher_Class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teacher">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Teacher_Class">
+              <PropertyRef Name="TeacherId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TripDetail_Trip">
+          <End Type="Kindergarten_DBModel.Trip" Role="Trip" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Kindergarten_DBModel.TripDetail" Role="TripDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Trip">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TripDetail">
+              <PropertyRef Name="TripId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TaskEvent">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Start" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="End" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="StartTimeZone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EndTimeZone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IsAllDay" Type="Boolean" Nullable="false" />
+          <Property Name="RecurrenceException" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RecurrenceRule" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RecurrenceId" Type="Int32" />
+          <Property Name="OwnerId" Type="Int32" />
+          <NavigationProperty Name="Class" Relationship="Kindergarten_DBModel.FK_TaskEvent_Class" FromRole="TaskEvent" ToRole="Class" />
+        </EntityType>
+        <Association Name="FK_TaskEvent_Class">
+          <End Type="Kindergarten_DBModel.Class" Role="Class" Multiplicity="0..1" />
+          <End Type="Kindergarten_DBModel.TaskEvent" Role="TaskEvent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Class">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TaskEvent">
+              <PropertyRef Name="OwnerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Kindergarten_DBModelStoreContainer" CdmEntityContainer="Kindergarten_DBEntities">
+          <EntitySetMapping Name="Children">
+            <EntityTypeMapping TypeName="Kindergarten_DBModel.Child">
+              <MappingFragment StoreEntitySet="Child">
+                <ScalarProperty Name="TakingCareId" ColumnName="TakingCareId" />
+                <ScalarProperty Name="DietId" ColumnName="DietId" />
+                <ScalarProperty Name="ClassId" ColumnName="ClassId" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="ParentPhoneNumber" ColumnName="ParentPhoneNumber" />
+                <ScalarProperty Name="ParentName" ColumnName="ParentName" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Dob" ColumnName="Dob" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Classes">
+            <EntityTypeMapping TypeName="Kindergarten_DBModel.Class">
+              <MappingFragment StoreEntitySet="Class">
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="TimeEnd" ColumnName="TimeEnd" />
+                <ScalarProperty Name="TimeStart" ColumnName="TimeStart" />
+                <ScalarProperty Name="ClassTitle" ColumnName="ClassTitle" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Class_Trip">
+            <EntityTypeMapping TypeName="Kindergarten_DBModel.Class_Trip">
+              <MappingFragment StoreEntitySet="Class_Trip">
+                <ScalarProperty Name="TripId" ColumnName="TripId" />
+                <ScalarProperty Name="ClassId" ColumnName="ClassId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Diets">
+            <EntityTypeMapping TypeName="Kindergarten_DBModel.Diet">
+              <MappingFragment StoreEntitySet="Diet">
+                <ScalarProperty Name="DietTitle" ColumnName="DietTitle" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DietDetails">
+            <EntityTypeMapping TypeName="Kindergarten_DBModel.DietDetail">
+              <MappingFragment StoreEntitySet="DietDetail">
+                <ScalarProperty Name="DietId" ColumnName="DietId" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="FoodMenu" ColumnName="FoodMenu" />
+                <ScalarProperty Name="Meal" ColumnName="Meal" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TakingCares">
+            <EntityTypeMapping TypeName="Kindergarten_DBModel.TakingCare">
+              <MappingFragment StoreEntitySet="TakingCare">
+                <ScalarProperty Name="TakingCareTitle" ColumnName="TakingCareTitle" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TakingCareDetails">
+            <EntityTypeMapping TypeName="Kindergarten_DBModel.TakingCareDetail">
+              <MappingFragment StoreEntitySet="TakingCareDetail">
+                <ScalarProperty Name="TakingCareId" ColumnName="TakingCareId" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="Activity" ColumnName="Activity" />
+                <ScalarProperty Name="FoodMenu" ColumnName="FoodMenu" />
+                <ScalarProperty Name="Meal" ColumnName="Meal" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Teachers">
+            <EntityTypeMapping TypeName="Kindergarten_DBModel.Teacher">
+              <MappingFragment StoreEntitySet="Teacher">
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Dob" ColumnName="Dob" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Teacher_Class">
+            <EntityTypeMapping TypeName="Kindergarten_DBModel.Teacher_Class">
+              <MappingFragment StoreEntitySet="Teacher_Class">
+                <ScalarProperty Name="ClassId" ColumnName="ClassId" />
+                <ScalarProperty Name="TeacherId" ColumnName="TeacherId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Trips">
+            <EntityTypeMapping TypeName="Kindergarten_DBModel.Trip">
+              <MappingFragment StoreEntitySet="Trip">
+                <ScalarProperty Name="TripTitle" ColumnName="TripTitle" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TripDetails">
+            <EntityTypeMapping TypeName="Kindergarten_DBModel.TripDetail">
+              <MappingFragment StoreEntitySet="TripDetail">
+                <ScalarProperty Name="TripId" ColumnName="TripId" />
+                <ScalarProperty Name="Budget" ColumnName="Budget" />
+                <ScalarProperty Name="Food" ColumnName="Food" />
+                <ScalarProperty Name="Activity" ColumnName="Activity" />
+                <ScalarProperty Name="TimeEnd" ColumnName="TimeEnd" />
+                <ScalarProperty Name="TimeStart" ColumnName="TimeStart" />
+                <ScalarProperty Name="Destination" ColumnName="Destination" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TaskEvents">
+            <EntityTypeMapping TypeName="Kindergarten_DBModel.TaskEvent">
+              <MappingFragment StoreEntitySet="TaskEvent">
+                <ScalarProperty Name="OwnerId" ColumnName="OwnerId" />
+                <ScalarProperty Name="RecurrenceId" ColumnName="RecurrenceId" />
+                <ScalarProperty Name="RecurrenceRule" ColumnName="RecurrenceRule" />
+                <ScalarProperty Name="RecurrenceException" ColumnName="RecurrenceException" />
+                <ScalarProperty Name="IsAllDay" ColumnName="IsAllDay" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="EndTimeZone" ColumnName="EndTimeZone" />
+                <ScalarProperty Name="StartTimeZone" ColumnName="StartTimeZone" />
+                <ScalarProperty Name="End" ColumnName="End" />
+                <ScalarProperty Name="Start" ColumnName="Start" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

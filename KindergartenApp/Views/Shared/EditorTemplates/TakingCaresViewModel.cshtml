@@ -1,0 +1,8 @@
+﻿@model KindergartenApp.Models.TakingCaresViewModel
+
+@(Html.Kendo().DropDownListFor(d => d)
+    .DataTextField("TakingCareTitle")
+    .DataValueField("Id")
+    .BindTo((System.Collections.IEnumerable)ViewData["takingcares"])
+    )
+
