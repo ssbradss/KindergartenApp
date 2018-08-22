@@ -476,6 +476,8 @@
     <Content Include="Views\Shared\EditorTemplates\TakingCaresViewModel.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Dob.cshtml" />
     <Content Include="Views\TaskEventsScheduler\Index.cshtml" />
+    <Content Include="Views\Shared\_Managers.cshtml" />
+    <Content Include="Views\Shared\_Sidebar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

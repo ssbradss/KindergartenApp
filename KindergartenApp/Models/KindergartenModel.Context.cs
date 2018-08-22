@@ -37,5 +37,7 @@ namespace KindergartenApp.Models
         public virtual DbSet<Trip> Trips { get; set; }
         public virtual DbSet<TripDetail> TripDetails { get; set; }
         public virtual DbSet<TaskEvent> TaskEvents { get; set; }
+
+        public System.Data.Entity.DbSet<KindergartenApp.Models.ChildrenViewModel> ChildrenViewModels { get; set; }
     }
 }

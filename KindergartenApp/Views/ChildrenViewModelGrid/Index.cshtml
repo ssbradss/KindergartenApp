@@ -21,7 +21,7 @@
       })
                   .Editable(editable => editable.Mode(GridEditMode.InCell))
                   .Pageable()
-                  .Scrollable(s => s.Height(260))
+                  .Scrollable(s => s.Height(350))
                   .DataSource(dataSource => dataSource
                       .Ajax()
                       .Batch(true)
@@ -61,7 +61,7 @@
 <hr />
 <div class="box">
 
-    <table class="table table-striped">
+    <table class="table table-striped" id="detail-table">
         <tr>
             <th>
                 FirstName
@@ -102,11 +102,16 @@
 
     </table>
 
-
-    <div class="console"></div>
 </div>
+<style>
+    #detail-table{
+        display: none;
+    }
+</style>
 <script>
     function onSelect(e) {
+        $("#detail-table").css("display", "inline-table");
+
         var dataItem = this.dataItem(e.item.index());
         $("#firstname").html(function () {
             return dataItem.FirstName;
@@ -132,4 +137,5 @@
             return dataItem.Address;
         });
     }
+
 </script>
