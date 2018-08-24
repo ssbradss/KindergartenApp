@@ -22,6 +22,8 @@ namespace KindergartenApp.Controllers
             PopulateClasses();
             PopulateDiets();
             PopulateTakingCares();
+            GetGenderRatio();
+            GetYearBornRatio();
             return View();
         }
 
@@ -96,8 +98,8 @@ namespace KindergartenApp.Controllers
                         var item = db.Children.ToList().Last();
                         child.Id = item.Id;
                         entities.Add(child);
-                    }; 
-                };       
+                    };
+                };
             }
 
             return Json(entities.ToDataSourceResult(request, ModelState));
@@ -161,7 +163,7 @@ namespace KindergartenApp.Controllers
                 }
                 db.SaveChanges();
             }
-             
+
             return Json(entities.ToDataSourceResult(request, ModelState));
         }
 
@@ -216,6 +218,54 @@ namespace KindergartenApp.Controllers
 
             ViewData["takingcares"] = takingcares;
             ViewData["defaultTakingCare"] = takingcares.First();
+        }
+
+        private void GetGenderRatio()
+        {
+            int allChild = db.Children.Count();
+            double maleRatio = Math.Round((db.Children.Where(c => c.Gender == true).Count() / Convert.ToDouble(allChild) * 100), 2);
+            double femaleRatio = 100 - maleRatio;
+            dynamic abc = new dynamic[]
+            {
+                new {category="Male",value=maleRatio,color="#9de219"},
+                new {category="Female",value=femaleRatio,color="#90cc38"},
+            };
+            ViewData["chart_gender"] = abc;
+        }
+
+        private void GetYearBornRatio()
+        {
+            var years = db.Children.Select(c => c.Dob.Year).Distinct().ToList();
+            List<int> maleSeries = new List<int>();
+            List<int> femaleSeries = new List<int>();
+            var yearsToString = new List<string>();
+            foreach (int year in years)
+            {
+                int males = db.Children.Where(c => c.Dob.Year == year && c.Gender == true).Count();
+                maleSeries.Add(males);
+                int females = db.Children.Where(c => c.Dob.Year == year && c.Gender == false).Count();
+                femaleSeries.Add(females);
+                yearsToString.Add(year.ToString());
+            }
+            ViewData["chart_yearBorn"] = yearsToString;
+            ViewData["chart_yearBornMales"] = maleSeries;
+            ViewData["chart_yearBornFemales"] = femaleSeries;
+        }
+
+        public ActionResult ChartChildrenInGeneral_Read()
+        {
+            var classes = db.Classes.OrderBy(c => c.Id).ToList();
+            var result = new List<ChartChildrenInGeneral>();
+            foreach(var item in classes)
+            {
+                result.Add(new ChartChildrenInGeneral {
+                    Classname = db.Classes.Where(c => c.Id == item.Id).Select(c => c.ClassTitle).FirstOrDefault(),
+                    ChildrenNumber = db.Children.Where(ch => ch.ClassId == item.Id).Count(),
+                    MaleNumber = db.Children.Where(ch => ch.ClassId == item.Id && ch.Gender == true).Count(),
+                    FemaleNumber = db.Children.Where(ch => ch.ClassId == item.Id && ch.Gender == false).Count()
+                });
+            }
+            return Json(result);
         }
 
         protected override void Dispose(bool disposing)

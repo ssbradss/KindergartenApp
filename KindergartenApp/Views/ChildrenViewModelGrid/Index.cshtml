@@ -1,64 +1,147 @@
-﻿
-@(Html.Kendo().Grid<KindergartenApp.Models.ChildrenViewModel>()
-                  .Name("grid")
-                  .Columns(columns =>
-                  {
-                      columns.Bound(c => c.FirstName).Width(100);
-                      columns.Bound(c => c.LastName);
-                      columns.Bound(c => c.Dob).Format("{0:dd/MM/yyyy}");
-                      columns.Bound(c => c.GenderVm).ClientTemplate("#=GenderVm.Gender#");
-                      columns.Bound(c => c.ParentName);
-                      columns.Bound(c => c.ParentPhoneNumber);
-                      columns.Bound(c => c.Address).Width(120);
-                      columns.Bound(c => c.ClassVm).ClientTemplate("#=ClassVm.ClassTitle#").Title("Class");
-                      columns.Bound(c => c.DietVm).ClientTemplate("#=DietVm.DietTitle#").Title("Diet");
-                      columns.Bound(c => c.TakingCareVm).ClientTemplate("#=TakingCareVm.TakingCareTitle#").Title("Taking Care");
-                      columns.Command(command => { command.Destroy(); }).Width(80);
-                  }).ToolBar(toolbar =>
-      {
-          toolbar.Create();
-          toolbar.Save();
-      })
-                  .Editable(editable => editable.Mode(GridEditMode.InCell))
-                  .Pageable()
-                  .Scrollable(s => s.Height(350))
-                  .DataSource(dataSource => dataSource
-                      .Ajax()
-                      .Batch(true)
-                      .Model(model =>
-                      {
-                          model.Id(c => c.Id);
-                          model.Field(c => c.ClassVm).DefaultValue(
-                          ViewData["defaultClass"] as KindergartenApp.Models.ClassesViewModel);
-                          model.Field(c => c.GenderVm).DefaultValue(
-                          ViewData["defaultGender"] as KindergartenApp.Models.GenderViewModel);
-                          model.Field(c => c.DietVm).DefaultValue(
-                          ViewData["defaultDiet"] as KindergartenApp.Models.DietsViewModel);
-                          model.Field(c => c.TakingCareVm).DefaultValue(
-                          ViewData["defaultTakingCare"] as KindergartenApp.Models.TakingCaresViewModel);
-                      })
-                      .Read(read => read.Action("ChildrenViewModel_Read", "ChildrenViewModelGrid"))
-                      .Create(create => create.Action("ChildrenViewModel_Create", "ChildrenViewModelGrid"))
-                      .Update(update => update.Action("ChildrenViewModel_Update", "ChildrenViewModelGrid"))
-                      .Destroy(destroy => destroy.Action("ChildrenViewModel_Destroy", "ChildrenViewModelGrid"))
-                      .PageSize(10)
-                  )
-)
+﻿<!---------------------------------------- CHART ----------------------------------->
+<div style="overflow: hidden">
+    <div class="chart-1-3">
+        @(Html.Kendo().Chart()
+                                            .Name("chart")
+                                            .Title(title => title
+                                                .Text("Ratio of Male and Female")
+                                                .Position(ChartTitlePosition.Bottom))
+                                            .Legend(legend => legend
+                                                .Visible(true)
+                                                .Position(ChartLegendPosition.Bottom)
+                                            )
+                                            .ChartArea(chart => chart
+                                                .Background("transparent")
+                                                )
+                                            .HtmlAttributes(new { style = "background: center no-repeat url(" + @Url.Content("~/Content/shared/world-map.png") })
+                                            .Series(series =>
+                                            {
+                                                series.Pie((System.Collections.IEnumerable)ViewData["chart_gender"])
+                                                .Labels(labels => labels
+                                                    .Template("#= category #: \n #= value#%")
+                                                    .Background("transparent")
+                                                    .Visible(true)
+                                                )
+                                                .StartAngle(0);
+                                            })
+                                            .Tooltip(tooltip => tooltip
+                                                .Visible(true)
+                                                .Format("{0:0}%")
+                                            )
+        )
+    </div>
+    <div class="chart-1-3">
+        @(Html.Kendo().Chart()
+                                                .Name("chart2")
+                                                .Title(title => title
+                                                    .Text("Number of children by Gender in each year")
+                                                    .Position(ChartTitlePosition.Bottom))
+                                                .Legend(legend => legend
+                                                    .Visible(true)
+                                                )
+                                                .ChartArea(chartArea => chartArea
+                                                    .Background("transparent")
+                                                )
+                                                .Series(series =>
+                                                {
+                                            //series.Column(new double[] { 56000, 63000, 74000, 91000, 117000, 138000 }).Name("Total Visits");
+                                            //series.Column(new double[] { 52000, 34000, 23000, 48000, 67000, 83000 }).Name("Unique visitors");
+                                            series.Column((List<int>)ViewData["chart_yearBornMales"]).Name("Male");
+                                                    series.Column((List<int>)ViewData["chart_yearBornFemales"]).Name("Female");
+                                                })
+                                                .CategoryAxis(axis => axis
+                                                    .Categories((List<string>)ViewData["chart_yearBorn"])
+                                                    .MajorGridLines(lines => lines.Visible(false))
+                                                )
+                                                .ValueAxis(axis => axis
+                                                    .Numeric()
+                                                    .Max(10)
+                                                    .Line(line => line.Visible(false))
+                                                    .MajorGridLines(lines => lines.Visible(true))
+                                                )
+                                                .Tooltip(tooltip => tooltip
+                                                    .Visible(true)
+                                                    .Template("#= series.name #: #= value #")
+                                                )
+        )
+    </div>
+    <!-- use model (remote binding)-->
+    <div class="chart-1-3">
+        @(Html.Kendo().Chart<KindergartenApp.Models.ChartChildrenInGeneral>()
+                                        .Name("chart3")
+                                        .Title("Children in general by Classes")
+                                        .Legend(legend => legend
+                                            .Position(ChartLegendPosition.Top)
+                                        )
+                                         .DataSource(ds => ds.Read(read => read.Action("ChartChildrenInGeneral_Read", "ChildrenViewModelGrid")))
+                                        .Series(series =>
+                                        {
+                                            series
+                                                .Column(model => model.ChildrenNumber)
+                                                .Stack(true)
+                                                .Color("#cc6e38")
+                                                .Name("Children");
+                                            series
+                                                .Line(model => model.MaleNumber)
+                                                .Name("Male")
+                                                .Color("red")
+                                                .Axis("maleNumber");
+                                            series
+                                                .Line(model => model.FemaleNumber)
+                                                .Name("Female")
+                                                .Color("blue")
+                                                .Axis("femaleNumber");
+                                        })
+                                        .CategoryAxis(axis => axis
+                                            .Categories(model => model.Classname)
+                                            .Labels(lb => lb.Rotation(-90))
+                                            // Align the first two value axes to the left
+                                            // and the last two to the right.
+                                            //
+                                            // Right alignment is done by specifying a
+                                            // crossing value greater than or equal to
+                                            // the number of categories.
+                                            .AxisCrossingValue(0, 10, 10)
+                                        )
+                                        .ValueAxis(axis => axis
+                                            .Numeric()
+                                            .Title("Children")
+                                            .Min(0).Max(15)
+                                        )
+                                        .ValueAxis(axis => axis
+                                            .Numeric("maleNumber")
+                                            .Title("Male Number")
+                                            .Color("red")
+                                            .Min(0).Max(10)
+                                        )
+                                        .ValueAxis(axis => axis
+                                            .Numeric("femaleNumber")
+                                            .Title("Female Number")
+                                            .Color("blue")
+                                            .Min(0).Max(10)
+                                        )
+        )
+    </div>
+    <br />
+</div>
+<!---------------------------------- END OF CHART ----------------------------->
+<!--------------------------------------------Autocomplete------------------------->
 <hr />
 <h4>Enter For A Child Detais</h4>
 @(Html.Kendo().AutoComplete()
-                      .Name("Children")
-                      .DataTextField("FirstName")
-                      .DataSource(dataSource => dataSource
-                      .Read(read => read.Action("AutoComplete_GetChildrenViewModel", "AutoComplete")))
-                      .Filter("startswith")
-                      .MinLength(1)
-                      .Events(e =>
-                      {
-                          e.Select("onSelect");
-                      })
+                                  .Name("Children")
+                                  .DataTextField("FirstName")
+                                  .DataSource(dataSource => dataSource
+                                  .Read(read => read.Action("AutoComplete_GetChildrenViewModel", "AutoComplete")))
+                                  .Filter("startswith")
+                                  .MinLength(1)
+                                  .Events(e =>
+                                  {
+                                      e.Select("onSelect");
+                                  })
 )
 <hr />
+
 <div class="box">
 
     <table class="table table-striped" id="detail-table">
@@ -104,8 +187,15 @@
 
 </div>
 <style>
-    #detail-table{
+    #detail-table {
         display: none;
+    }
+
+    .chart-1-3 {
+        margin: 50px 0px 10px;
+        float: left;
+        max-width: 33%;
+        min-width: 32%
     }
 </style>
 <script>
@@ -122,7 +212,7 @@
         $("#dob").html(function () {
             var date = new Date(parseInt(dataItem.Dob.replace("/Date(", "").replace(")/")));
 
-            return date.getDate() + "/" + (date.getMonth()+1) + "/" + date.getFullYear();
+            return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
         });
         $("#gender").html(function () {
             return dataItem.GenderVm.Gender;
@@ -139,3 +229,52 @@
     }
 
 </script>
+<!-------------------------------------------End --------------------------------------------->
+<!-- GRID -->
+@(Html.Kendo().Grid<KindergartenApp.Models.ChildrenViewModel>()
+                              .Name("grid")
+                              .Columns(columns =>
+                              {
+                                  columns.Bound(c => c.FirstName).Width(100);
+                                  columns.Bound(c => c.LastName);
+                                  columns.Bound(c => c.Dob).Format("{0:dd/MM/yyyy}");
+                                  columns.Bound(c => c.GenderVm).ClientTemplate("#=GenderVm.Gender#");
+                                  columns.Bound(c => c.ParentName);
+                                  columns.Bound(c => c.ParentPhoneNumber);
+                                  columns.Bound(c => c.Address).Width(120);
+                                  columns.Bound(c => c.ClassVm).ClientTemplate("#=ClassVm.ClassTitle#").Title("Class");
+                                  columns.Bound(c => c.DietVm).ClientTemplate("#=DietVm.DietTitle#").Title("Diet");
+                                  columns.Bound(c => c.TakingCareVm).ClientTemplate("#=TakingCareVm.TakingCareTitle#").Title("Taking Care");
+                                  columns.Command(command => { command.Destroy(); }).Width(80);
+                              }).ToolBar(toolbar =>
+                  {
+                      toolbar.Create();
+                      toolbar.Save();
+                  })
+                              .Editable(editable => editable.Mode(GridEditMode.InCell))
+                              .Pageable()
+                              .Scrollable(s => s.Height(350))
+                              .DataSource(dataSource => dataSource
+                                  .Ajax()
+                                  .Batch(true)
+                                  .Model(model =>
+                                  {
+                                      model.Id(c => c.Id);
+                                      model.Field(c => c.ClassVm).DefaultValue(
+                                      ViewData["defaultClass"] as KindergartenApp.Models.ClassesViewModel);
+                                      model.Field(c => c.GenderVm).DefaultValue(
+                                      ViewData["defaultGender"] as KindergartenApp.Models.GenderViewModel);
+                                      model.Field(c => c.DietVm).DefaultValue(
+                                      ViewData["defaultDiet"] as KindergartenApp.Models.DietsViewModel);
+                                      model.Field(c => c.TakingCareVm).DefaultValue(
+                                      ViewData["defaultTakingCare"] as KindergartenApp.Models.TakingCaresViewModel);
+                                  })
+                                  .Read(read => read.Action("ChildrenViewModel_Read", "ChildrenViewModelGrid"))
+                                  .Create(create => create.Action("ChildrenViewModel_Create", "ChildrenViewModelGrid"))
+                                  .Update(update => update.Action("ChildrenViewModel_Update", "ChildrenViewModelGrid"))
+                                  .Destroy(destroy => destroy.Action("ChildrenViewModel_Destroy", "ChildrenViewModelGrid"))
+                                  .PageSize(10)
+                              )
+)
+
+<!------------------------------------End of Grid------------------------------->

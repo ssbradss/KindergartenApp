@@ -53,4 +53,20 @@ namespace KindergartenApp.Models
         public string ClassTitle { get; set; }
         public string ClassColor { get; set; }
     }
+
+    public class ChartChildrenInGeneralByClass
+    {
+        public List<int> ChildrenNumber;
+        public List<string> Classname;
+        public List<int> Male;
+        public List<int> Female;
+    }
+
+    public class ChartChildrenInGeneral
+    {
+        public int ChildrenNumber;
+        public string Classname;
+        public int MaleNumber;
+        public int FemaleNumber;
+    }
 }
