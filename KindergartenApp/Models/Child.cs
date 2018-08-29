@@ -11,16 +11,22 @@ namespace KindergartenApp.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Child
     {
         public int Id { get; set; }
+        [Required]
         public string FirstName { get; set; }
+        [Required]
         public string LastName { get; set; }
         public System.DateTime Dob { get; set; }
         public bool Gender { get; set; }
+        [Required]
         public string ParentName { get; set; }
+        [Required]
         public int ParentPhoneNumber { get; set; }
+        [Required]
         public string Address { get; set; }
         public Nullable<int> ClassId { get; set; }
         public Nullable<int> DietId { get; set; }

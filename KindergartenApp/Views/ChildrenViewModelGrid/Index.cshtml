@@ -232,7 +232,7 @@
 <!-------------------------------------------End --------------------------------------------->
 <!-- GRID -->
 @(Html.Kendo().Grid<KindergartenApp.Models.ChildrenViewModel>()
-                              .Name("grid")
+                              .Name("childrenViewModel")
                               .Columns(columns =>
                               {
                                   columns.Bound(c => c.FirstName).Width(100);
@@ -273,6 +273,7 @@
                                   .Create(create => create.Action("ChildrenViewModel_Create", "ChildrenViewModelGrid"))
                                   .Update(update => update.Action("ChildrenViewModel_Update", "ChildrenViewModelGrid"))
                                   .Destroy(destroy => destroy.Action("ChildrenViewModel_Destroy", "ChildrenViewModelGrid"))
+                                  .Events(e => e.RequestEnd("onRequestEnd"))  
                                   .PageSize(10)
                               )
 )

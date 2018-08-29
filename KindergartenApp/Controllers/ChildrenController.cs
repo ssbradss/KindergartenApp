@@ -56,6 +56,7 @@ namespace KindergartenApp.Controllers
             {
                 db.Children.Add(child);
                 db.SaveChanges();
+                TempData["mess"] = "Create Successfully";
                 return RedirectToAction("Index");
             }
 
@@ -94,6 +95,7 @@ namespace KindergartenApp.Controllers
             {
                 db.Entry(child).State = EntityState.Modified;
                 db.SaveChanges();
+                TempData["mess"] = "Edit Successfully";
                 return RedirectToAction("Index");
             }
             ViewBag.ClassId = new SelectList(db.Classes, "Id", "ClassTitle", child.ClassId);
@@ -125,6 +127,7 @@ namespace KindergartenApp.Controllers
             Child child = db.Children.Find(id);
             db.Children.Remove(child);
             db.SaveChanges();
+            TempData["mess"] = "Delete Successfully";
             return RedirectToAction("Index");
         }
 

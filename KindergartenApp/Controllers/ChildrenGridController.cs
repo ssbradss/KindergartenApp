@@ -61,6 +61,7 @@ namespace KindergartenApp.Controllers
                     entities.Add(entity);
                 }
                 db.SaveChanges();
+                TempData["successCreate"] = "Create Successfully";
             }
 
             return Json(entities.ToDataSourceResult(request, ModelState));
@@ -91,6 +92,7 @@ namespace KindergartenApp.Controllers
                     db.Entry(entity).State = EntityState.Modified;                        
                 }
                 db.SaveChanges();
+                TempData["successEdit"] = "Edit Successfully";
             }
 
             return Json(entities.ToDataSourceResult(request, ModelState));
@@ -121,6 +123,7 @@ namespace KindergartenApp.Controllers
                     db.Children.Remove(entity);
                 }
                 db.SaveChanges();
+                TempData["successDelete"] = "Delete Successfully";
             }
 
             return Json(entities.ToDataSourceResult(request, ModelState));
